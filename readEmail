@@ -1,0 +1,20 @@
+import imaplib
+
+mail = imaplib.IMAP4_SSL('imap.yandex.ru')
+mail.login('your_email', 'your_password')
+mail.select()
+
+resp, items = mail.uid('search', None, "UNSEEN")
+mail_ids = items[0].split()
+
+for mail_id in mail_ids:
+    resp, data = mail.fetch(mail_id, '(RFC822)')
+    raw_email = data[0][1].decode('utf-8')
+    mail_message = raw_email.split("\n\n")
+    mail_subject = mail_message[0]
+    mail_body = mail_message[1]
+
+    if mail_subject:
+        print(f"Subject: {mail_subject.split('\n')[0]}")
+        print("\nBody:\n")
+        print(mail_body)
