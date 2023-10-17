@@ -18,3 +18,14 @@ for mail_id in mail_ids:
         print(f"Subject: {mail_subject.split('\n')[0]}")
         print("\nBody:\n")
         print(mail_body)
+
+
+
+https://github.com/ikvk/imap_tools/blob/master/examples/basic.py
+
+# Equivalent verbose version:
+mailbox = MailBox('imap.mail.com')
+mailbox.login('test@mail.com', 'pwd', 'INBOX') # or use mailbox.folder.set instead initial_folder arg
+for msg in mailbox.fetch(AND(all=True)):
+    print(msg.date, msg.subject, len(msg.text or msg.html))
+mailbox.logout()
