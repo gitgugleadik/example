@@ -27,7 +27,7 @@ https://github.com/ikvk/imap_tools/blob/master/examples/basic.py
 mailbox = MailBox('imap.mail.com')
 mailbox.login('test@mail.com', 'pwd', 'INBOX') # or use mailbox.folder.set instead initial_folder arg
 for msg in mailbox.fetch(AND(new=True)):
-    print(msg.date, msg.subject, len(msg.text or msg.html))
+    print(msg.date, msg.subject, len(msg.text or msg.html), msg.text)
 mailbox.logout()
 
 
