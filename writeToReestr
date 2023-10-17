@@ -1,4 +1,4 @@
-lic = ''
+lic = '5050E-D00GG-01FGG-W3GGM-GG2EB'
 FIO = ''
 firm = ''
 c = wmi.WMI(computer=Comp, user='dsdsd'), password='dfdf')
