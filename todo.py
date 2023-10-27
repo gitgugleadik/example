@@ -10,20 +10,13 @@ https://spravochnick.ru/psihologiya/psihologicheskiy_analiz/psihologicheskiy_ana
 https://anticoach.org/speech-analysis
 
 https://vc.ru/begovatovd/722188-5-rossiyskih-servisov-dlya-rechevoy-analitiki-svodnaya-tablica-resheniy-s-cenami
+
 import sqlite3
-import subprocess,os
+import subprocess, os
 import flet as ft
 
-def main(page):
 
-    tabel = ft.TextField(label="Табельный номер", autofocus=True, width = 200)
-    fio = ft.TextField(label="ФИО", width = 400)
-    Computer = ft.TextField(label="Имя ПК", width = 400)
-    unit=ft.TextField(label="Подразделение", width = 400)
-    root_unit = ft.TextField(label="Структурное", width = 400)
-    TipCart = ft.TextField(label="Карты сертификаты", width = 400)
-    greetings = ft.Column()
-
+def main(page, btn_click=None):
     def btn_click(e):
         con = sqlite3.connect("db.sqlite3")
         cursor = con.cursor()
@@ -43,18 +36,35 @@ def main(page):
                 fio.value, Computer.value, unit.value, root_unit.value, TipCart.value = r[0], r[1], r[2], r[3], r[4]
                 page.update()
 
+    tabel = ft.TextField(label="Табельный номер", autofocus=True, width=150)
+    fio = ft.TextField(label="ФИО", width=300, on_submit=btn_click)
+    Computer = ft.TextField(label="Имя ПК", width=150)
+    unit = ft.TextField(label="Подразделение", width=400)
+    root_unit = ft.TextField(label="Структурное", width=400)
+    TipCart = ft.TextField(label="Карты сертификаты", width=100)
+    greetings = ft.Column()
+
     def btn_clickDMWare(e):
         if (Computer.value != ''):
             print(Computer.value)
-            subprocess.call(f"C:\Program Files (x86)\DameWare Development\DameWare NT Utilities\DWRCC.exe -c: -h: -m:{Computer.value} -a:1")
-
+            subprocess.call(
+                f"C:\Program Files (x86)\DameWare Development\DameWare NT Utilities\DWRCC.exe -c: -h: -m:{Computer.value} -a:1")
 
     page.add(
-        tabel, fio, Computer, unit, root_unit, TipCart,
-        ft.ElevatedButton("Искать!", on_click=btn_click),
+
+        ft.Row(
+            [ fio, tabel, ft.ElevatedButton("Искать!", on_click=btn_click), ],
+            alignment=ft.MainAxisAlignment.CENTER,
+        ),
+
+        ft.Row(
+            [ Computer, unit, root_unit, TipCart,],
+            alignment=ft.MainAxisAlignment.CENTER,
+        ),
         ft.ElevatedButton("DMWare!", on_click=btn_clickDMWare),
         greetings,
     )
+
 
 ft.app(target=main)
 
